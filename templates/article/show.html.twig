@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ article.title}}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>
+			<hr>
+		</h1>
+		{{ article.content|raw}}
+
+		<h2 class="comment-titlev mt-5">
+			<span class="comment-count">
+				{{ article.comments|length }}</span>
+			commentaire(s)
+		</span>
+	</h2>
+	<hr>
+	<div class="comment-area mb-5">
+
+		{{ form(commentForm, { 'attr': {  'class': 'comment-form' } } ) }}
+
+		</div>
+
+		<div class="comment-list">
+			{% for comment in article.comments %}
+				{% include "comment/index.html.twig" with [comment] %}
+
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}
