@@ -37,8 +37,8 @@ class Menu
     #[ORM\ManyToOne]
     private ?Page $page = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $link = null;
+    #[ORM\Column(length: 255)]
+    private $link;
 
     public function __construct()
     {
@@ -156,5 +156,9 @@ class Menu
         $this->link = $link;
 
         return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }

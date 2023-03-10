@@ -1,3 +1,5 @@
+{% set menus = menu_service.findAll %}
+
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
@@ -32,7 +34,7 @@
 							<a class="dropdown-item " href="{{ path ('admin') }}">Tableau de bord</a>
 						</li>
 						<li>
-							<a class="dropdown-item" href="#">Menu</a>
+							<a class="dropdown-item" href="{{ ea_index('MenuCrudController') }}">Menu</a>
 						</li>
 
 					</ul>
@@ -65,31 +67,71 @@
 				<a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none" href=" {{path('app_home')}} ">
 					<span class="fs-4">Monblog</span>
 				</a>
-				<ul class="nav nav-pills align-items-center">
-					<li class="nav-item">
-						<a class="nav-link  text-dark" href="">Inscription</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link  text-dark" href="">Connexion</a>
-					</li>
+				<ul class="nav nav-pills align-items-center ">
+
+					{% for menu in menus %}
+
+						{% if menu.subMenus.count > 0 %}
+							<div class="dropdown">
+
+								<a class="nav-link link-light px-2 dropdown-toggle text-decoration-none text-danger" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									<span class="menu-label">{{ menu.name }}</span>
+								</a>
+
+								<ul class="dropdown-menu">
+									{% for subMenu in menu.subMenus %}
+
+										<li>
+											<a class="dropdown-item" href="#">{{ subMenu.name }}</a>
+										</li>
+
+									{% endfor %}
+								</ul>
+
+							</div>
+						{% else %}
+							<li class="nav-item">
+								<a href="{{ menu|menuLink }}" class="nav-link text-warning">
+									<span class="menu-label">{{ menu.name }}</span>
+								</a>
+							</li>
+						{% endif %}
+					{% endfor %}
+
+
+					{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+
+						<li class="nav-item">
+							<a class="nav-link  text-dark" href=" {{ path ('app_register') }} ">Inscription</a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link  text-dark" href=" {{ path ('app_login') }} ">Connexion</a>
+						</li>
+
+					{% else %}
+						<div class="dropdown">
+
+							<a class="nav nav-link dropdown-toggle text-dark" -role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								{{ app.user.username|capitalize }}
+							</a>
+
+							<ul class="dropdown-menu ">
+
+								<li>
+									<a class="nav-link  text-dark" href=" {{ path ('app_logout') }} ">Déconexion</a>
+								</li>
+
+							</ul>
+						</div>
+
+
+					{% endif %}
 				</ul>
 			</header>
-		</div>
-
-
-		{% block body %}{% endblock %}
-
-		<div class="container">
-			<footer class="d-flex flex-wrap justify-content-between py-3 mb-4 border-top">
-
-
-				<div class="col-md4 d-flex align-item-center">
-					<span class="copyright">©
-						{{ 'now'|date('Y') }}
-						anth1309 tous droits réservés</span>
-				</div>
-			</footer>
-		</div>
-
+		</body>
 	</body>
-</html>
+</html></body></html></div>{% block body %}{% endblock %}<div class="container"><footer class="d-flex flex-wrap justify-content-between py-3 mb-4 border-top"><div class="col-md4 d-flex align-item-center">
+<span class="copyright">©
+	{{ 'now'|date('Y') }}
+	anth1309 tous droits réservés</span></div></footer></div></body></html>
