@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Category;
 use App\Repository\ArticleRepository;
+
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -13,7 +14,8 @@ class ArticleService
     public function __construct(
         private RequestStack $requestStack,
         private ArticleRepository $articleRepository,
-        private PaginatorInterface $paginatorInterface
+        private PaginatorInterface $paginatorInterface,
+        private OptionService $optionService
     ) {
     }
 
@@ -21,7 +23,7 @@ class ArticleService
     {
         $request = $this->requestStack->getMainRequest();
         $page = $request->query->getInt('page', 1);
-        $limit = 2;
+        $limit = $this->optionService->getValue('blog_articles_limit');
         $articlesQuery = $this->articleRepository->findForPagination($category);
         return $this->paginatorInterface->paginate($articlesQuery, $page, $limit);
     }

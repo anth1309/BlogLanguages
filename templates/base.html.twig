@@ -1,4 +1,7 @@
 {% set menus = menu_service.findAll %}
+{% set options = option_service.findAll %}
+
+{# {{ dump(options) }} #}
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -28,7 +31,7 @@
 					<div class="dropdown">
 
 						<a class="nav nav-link dropdown-toggle text-white" -role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							Mon blog
+							{{ options['blog_title'] }}
 						</a>
 						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuAdmin">
 							<li>
@@ -69,7 +72,7 @@
 			<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
 
 				<a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none" href=" {{path('app_home')}} ">
-					<span class="fs-4">Monblog</span>
+					<span class="fs-4">{{ options['blog_title'] }}</span>
 				</a>
 				<ul class="nav nav-pills align-items-center ">
 
@@ -104,10 +107,13 @@
 
 
 					{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+						{% if  '1' == options['users_can_register'] %}
 
-						<li class="nav-item">
-							<a class="nav-link  text-dark" href=" {{ path ('app_register') }} ">Inscription</a>
-						</li>
+							<li class="nav-item">
+								<a class="nav-link  text-dark" href=" {{ path ('app_register') }} ">Inscription</a>
+							</li>
+						{% endif %}
+
 
 						<li class="nav-item">
 							<a class="nav-link  text-dark" href=" {{ path ('app_login') }} ">Connexion</a>
@@ -143,7 +149,9 @@
 			<div class="container sticky-bottom fixed-bottom">
 				<footer class="d-flex flex-wrap justify-content-between py-3 mb-4 border-top  ">
 					<div class="col-md4 d-flex align-item-center">
-						<span class="copyright">©{{ 'now'|date('Y') }}anth1309 tous droits réservés</span>
+						<span class="copyright">©{{ 'now'|date('Y') }}
+							{{ options['blog_copyright'] }}
+						</span>
 					</div>
 				</footer>
 			</div>

@@ -1,9 +1,11 @@
 <?php
 
+
+
 namespace App\Entity;
 
-use App\Repository\OptionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\OptionRepository;
 
 #[ORM\Entity(repositoryClass: OptionRepository::class)]
 #[ORM\Table(name: '`option`')]
@@ -17,14 +19,22 @@ class Option
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $value = null;
 
     #[ORM\Column(length: 255)]
     private ?string $type = null;
+
+    public function __construct(string $label, string $name, string $value, string $type)
+    {
+        $this->label = $label;
+        $this->name = $name;
+        $this->value = $value;
+        $this->type = $type;
+    }
 
     public function getId(): ?int
     {
@@ -77,5 +87,10 @@ class Option
         $this->type = $type;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->value;
     }
 }
