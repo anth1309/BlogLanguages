@@ -18,17 +18,25 @@
 		</span>
 	</h2>
 	<hr>
-	<div class="comment-area mb-5">
 
-		{{ form(commentForm, { 'attr': {  'class': 'comment-form' } } ) }}
+	{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
+		<div class="comment-area mb-5">
+
+			{{ form(commentForm, { 'attr': {  'class': 'comment-form' } } ) }}
+
+			</div>
+
+			<div class="comment-list">
+				{% for comment in comments %}
+					{% include "comment/index.html.twig" with [comment] %}
+
+				{% endfor %}
+			</div>
+
+			<div class="d-flex align-items-center justify-content-center">
+				{{ knp_pagination_render ( comments ) }}
+			</div>
 		</div>
-
-		<div class="comment-list">
-			{% for comment in article.comments %}
-				{% include "comment/index.html.twig" with [comment] %}
-
-			{% endfor %}
-		</div>
-	</div>
+	{% endif %}
 {% endblock %}

@@ -20,47 +20,51 @@
 		{% endblock %}
 	</head>
 	<body>
-		<nav class="py-2 bg-dark border-botton">
+		{% if  is_granted('ROLE_AUTHOR') %}
+			<nav class="py-2 bg-dark border-botton">
 
-			<div class="container d-flex flex-wrap">
+				<div class="container d-flex flex-wrap">
 
-				<div class="dropdown">
+					<div class="dropdown">
 
-					<a class="nav nav-link dropdown-toggle text-white" -role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Mon blog
-					</a>
-					<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuAdmin">
-						<li>
-							<a class="dropdown-item " href="{{ path ('admin') }}">Tableau de bord</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="{{ ea_index('MenuCrudController') }}">Menu</a>
-						</li>
+						<a class="nav nav-link dropdown-toggle text-white" -role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Mon blog
+						</a>
+						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuAdmin">
+							<li>
+								<a class="dropdown-item " href="{{ path ('admin') }}">Tableau de bord</a>
+							</li>
+							{% if  is_granted('ROLE_ADMIN') %}
+								<li>
+									<a class="dropdown-item" href="{{ ea_gen_url('MenuCrudController') }}">Menu</a>
+								</li>
+							{% endif %}
+						</ul>
 
-					</ul>
+					</div>
+
+					<div class="dropdown">
+
+						<a class="nav nav-link dropdown-toggle text-white" -role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Ajouter
+						</a>
+						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuAdminDaschboard">
+							<li>
+								<a class="dropdown-item " href=" {{ ea_gen_url('ArticleCrudController', 'new') }} ">Articles</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ ea_gen_url('PageCrudController', 'new') }}">Page</a>
+							</li>
+
+						</ul>
+
+					</div>
 
 				</div>
 
-				<div class="dropdown">
+			</nav>
 
-					<a class="nav nav-link dropdown-toggle text-white" -role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Ajouter
-					</a>
-					<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuAdminDaschboard">
-						<li>
-							<a class="dropdown-item " href="#">Articles</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="#">Page</a>
-						</li>
-
-					</ul>
-
-				</div>
-
-			</div>
-
-		</nav>
+		{% endif %}
 		<div class="container">
 			<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
 
@@ -121,6 +125,10 @@
 								<li>
 									<a class="nav-link  text-dark" href=" {{ path ('app_logout') }} ">Déconexion</a>
 								</li>
+								<div class="dropdown-divider"></div>
+								<li>
+									<a class="nav-link  text-dark" href="{{ path ('app_profile', { username: app.user.username })}}">Profil</a>
+								</li>
 
 							</ul>
 						</div>
@@ -128,10 +136,14 @@
 
 					{% endif %}
 				</ul>
-			</header>
-		</body>
-	</body>
-</html></body></html></div>{% block body %}{% endblock %}<div class="container"><footer class="d-flex flex-wrap justify-content-between py-3 mb-4 border-top"><div class="col-md4 d-flex align-item-center">
-<span class="copyright">©
-	{{ 'now'|date('Y') }}
-	anth1309 tous droits réservés</span></div></footer></div></body></html>
+
+			</div>
+
+			{% block body %}{% endblock %}
+			<div class="container sticky-bottom fixed-bottom">
+				<footer class="d-flex flex-wrap justify-content-between py-3 mb-4 border-top  ">
+					<div class="col-md4 d-flex align-item-center">
+						<span class="copyright">©{{ 'now'|date('Y') }}anth1309 tous droits réservés</span>
+					</div>
+				</footer>
+			</div>
