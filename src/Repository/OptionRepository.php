@@ -36,18 +36,6 @@ class OptionRepository extends ServiceEntityRepository
     }
 
 
-    // public function getValue(string $name): mixed
-    // {
-    //     try {
-    //         return $this->createQueryBuilder('o')
-    //             ->select('o.value')
-    //             ->where('o.name = :name');
-    //             ->getQuery()
-    //             ->getSingleScalarResult();
-    //     } catch (NoResultException | NonUniqueResultException) {
-    //         return null;
-    //     }
-    // }
 
     public function getValue(string $name): mixed
     {
